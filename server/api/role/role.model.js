@@ -7,8 +7,8 @@ const schema = new Schema({
     name: {
         type: String
     },
-    hierarchy: {
-        type: [String]
+    parent: {
+        type: String
     }
 })
 

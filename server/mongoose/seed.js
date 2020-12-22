@@ -4,35 +4,31 @@ const roles = [
     {
         id: '1',
         name: 'root',
-        hierarchy: []
+        parent: null
     },
     {
         id: '2',
         name: 'root-child',
-        hierarchy: ['root']
+        parent: 'root'
     },
     {
         id: '3',
         name: 'root-second-child',
-        hierarchy: ['root']
+        parent: 'root'
     },
     {
         id: '4',
         name: '2-child',
-        hierarchy: [
-            'root-child',
-            'root'
-        ]
+        parent: 'root-child'
     },
     {
         id: '5',
         name: '4-child',
-        hierarchy: [
-            '2-child',
-            'root-child',
-            'root'
-        ]
+        parent: '2-child'
     }
 ]
 
-export default async () => await roleModel.insertMany(roles);
+export default async () => {
+    await roleModel.deleteMany();
+    await roleModel.insertMany(roles);
+}
