@@ -8,9 +8,9 @@ const get = async () => model.aggregate([
     {
         $graphLookup: {
             from: "roles",
-            startWith: "$parent",
-            connectFromField: "parent",
-            connectToField: "name",
+            startWith: "$name",
+            connectFromField: "name",
+            connectToField: "parent",
             as: "children"
         }
     }

@@ -33,7 +33,7 @@ const roles =
         ]
     }]
 
-const old = [
+const oldAndIrrelevant = [
     {
         "id": "1", "name": "root", "parent": null, "children": []
     },
@@ -59,18 +59,36 @@ const old = [
     }
 ]
 
-const makeTree = (data) => {
-    var newTree = {};
-    data.forEach(node => {
-        Object.assign(newTree[node.id] = newTree[node.id] || {}, node);
-        newTree[node.parent] = newTree[node.parent] || {};
-        newTree[node.parent].children = newTree[node.parent].children || [];
-        newTree[node.parent].children.push(newTree[node.id]);
-    });
-    return newTree;
+const oldnew = [
+    {
+        "id": "1", "name": "root", "parent": null, "children": [
+            { "id": "2", "name": "root-child", "parent": "root" },
+            { "id": "3", "name": "root-second-child", "parent": "root" }]
+    },
+    {
+        "id": "2", "name": "root-child", "parent": "root", "children": [
+            { "id": "4", "name": "2-child", "parent": "root-child" }]
+    },
+    { "id": "3", "name": "root-second-child", "parent": "root", "children": [] },
+    {
+        "id": "4", "name": "2-child", "parent": "root-child", "children": [
+            { "id": "5", "name": "4-child", "parent": "2-child" }]
+    },
+    { "id": "5", "name": "4-child", "parent": "2-child", "children": [] }]
+
+const makeTree = () => {
+    oldnew.reduce((curr, arr, i) => {
+        if (curr.parent == null) {
+            return [...arr, { [curr.name]: curr }]
+        }
+
+        if (!arr[curr.parent]) {
+            return [...arr, { [curr.parent]: "" }]
+        }
+    }, [])
 }
 
-console.log(makeTree(old));
+console.log(makeTree(oldnew));
 
 const hasChildren = (member) => member.children && member.children.length
 
