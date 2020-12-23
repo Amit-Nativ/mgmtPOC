@@ -76,24 +76,26 @@ const oldnew = [
     },
     { "id": "5", "name": "4-child", "parent": "2-child", "children": [] }]
 
-const makeTree = () => {
-    oldnew.reduce((curr, arr, i) => {
-        if (curr.parent == null) {
-            return [...arr, { [curr.name]: curr }]
-        }
+// const makeTree = () => {
+//     oldnew.reduce((curr, arr, i) => {
+//         if (curr.parent == null) {
+//             return [...arr, { [curr.name]: curr }]
+//         }
 
-        if (!arr[curr.parent]) {
-            return [...arr, { [curr.parent]: "" }]
-        }
-    }, [])
-}
+//         if (!arr[curr.parent]) {
+//             return [...arr, { [curr.parent]: "" }]
+//         }
+//     }, [])
+// }
 
-console.log(makeTree(oldnew));
+
+
+// console.log(makeTree(oldnew));
 
 const hasChildren = (member) => member.children && member.children.length
 
 const TreeNode = ({ members }) => (<div>
-    {members.map(x => (
+    {members.map((x, i, arr) => (
         <div>
             <TreeItem nodeId={x.id} label={x.name}>
                 {hasChildren(x) && <TreeNode key={x.id} members={x.children} />}
@@ -107,7 +109,7 @@ export default () => {
         <TreeView
             defaultCollapseIcon={<ExpandMoreIcon />}
             defaultExpandIcon={<ChevronRightIcon />}>
-            <TreeNode members={roles} />
+            <TreeNode members={oldnew} />
         </TreeView>
     )
 }
