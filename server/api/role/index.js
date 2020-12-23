@@ -1,24 +1,31 @@
 import e from "express";
 import { AsyncRouter } from 'express-async-router'
 import model from './role.model'
+import flatToNested from 'flat-to-nested'
 
+const flat = new flatToNested({ id: 'name', parent: 'parent', children: 'children' })
 const router = AsyncRouter();
 
-const get = async () => model.aggregate([
-    {
-        $graphLookup: {
-            from: "roles",
-            startWith: "$name",
-            connectFromField: "name",
-            connectToField: "parent",
-            as: "children"
-        }
-    }
-])
+const get = async () => {
+    const data = await model.find()
+    return flat.convert(data)
+}
 
-const reduce = (tree) => tree.reduce((curr, arr, i) => {
+// model.aggregate([
+//     {
+//         $graphLookup: {
+//             from: "roles",
+//             startWith: "$name",
+//             connectFromField: "name",
+//             connectToField: "parent",
+//             as: "children"
+//         }
+//     }
+// ])
 
-}, [])
+// const reduce = (tree) => tree.reduce((curr, arr, i) => {
+
+// }, [])
 
 router.get("/", get);
 

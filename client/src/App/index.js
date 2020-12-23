@@ -76,6 +76,23 @@ const oldnew = [
     },
     { "id": "5", "name": "4-child", "parent": "2-child", "children": [] }]
 
+
+// const mapIt = (data) => {
+//     const root = data.find(x => !x.parent)[0];
+
+//     root.children.map((x, i, arr) => {
+
+
+//     })
+// }
+
+// const reduceThisShit = (data) => {
+//     return data.reduce((acc, x, i, arr) => {
+//         if (arr[x.parent]) return [...acc, { [x.parent]: { ...arr[x.parent], children: [...arr[x.parent].children, x] } }]
+//         if (!acc[x.id]) return [...acc, { [x.name]: x }]
+//     }, []);
+// }
+
 // const makeTree = () => {
 //     oldnew.reduce((curr, arr, i) => {
 //         if (curr.parent == null) {
@@ -88,20 +105,19 @@ const oldnew = [
 //     }, [])
 // }
 
-
-
-// console.log(makeTree(oldnew));
-
 const hasChildren = (member) => member.children && member.children.length
 
 const TreeNode = ({ members }) => (<div>
-    {members.map((x, i, arr) => (
-        <div>
-            <TreeItem nodeId={x.id} label={x.name}>
-                {hasChildren(x) && <TreeNode key={x.id} members={x.children} />}
-            </TreeItem>
-        </div>
-    ))}
+    {members.map((x, i, arr) => {
+        const newX = arr.find(element => element.id == x.id)
+        return (
+            <div>
+                <TreeItem nodeId={newX.id} label={newX.name}>
+                    {hasChildren(newX) && <TreeNode key={newX.id} members={newX.children} />}
+                </TreeItem>
+            </div>
+        )
+    })}
 </div>);
 
 export default () => {
